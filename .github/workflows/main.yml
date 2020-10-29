@@ -28,7 +28,7 @@ jobs:
         uses: wearerequired/lint-action@v1.6.0
         with:
           # The GITHUB_TOKEN secret
-          github_token: 
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           # Whether linters should try to fix code style issues automatically
           auto_fix: # optional
           # Username for auto-fix commits
@@ -74,7 +74,7 @@ jobs:
           # Additional arguments to pass to the linter
           eslint_args: # optional, default is 
           # Directory where the ESLint command should be run
-          eslint_dir: # optional
+          eslint_dir: Src # optional
           # Extensions of files to check with ESLint
           eslint_extensions: # optional, default is js
           # Shell command to prepend to the linter command. Will default to `npx --no-install` for NPM and `yarn run --silent` for Yarn.
