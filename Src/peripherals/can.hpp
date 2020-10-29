@@ -16,11 +16,6 @@ using namespace std;
 
 // tx example: 		CANCONTROLLER.canSendExt(0x123,3,(const uint8_t *)"123");
 
-extern "C" {
-void __attribute__ ((interrupt("IRQ"))) USB_LP_CAN1_RX0_IRQHandler(void);
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *CanHandle);
-}
-
 class CanController {
 private:
 	CAN_HandleTypeDef CanHandle;
@@ -33,15 +28,10 @@ private:
 	}
 
 protected:
-	static CanController *thisptr;
 
 public:
 
-	friend  void __attribute__ ((interrupt("IRQ"))) USB_LP_CAN1_RX0_IRQHandler(void);
-	friend void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *CanHandle);
-
 	CanController () {
-		thisptr=this;
 
 		GPIO_InitTypeDef   GPIO_InitStruct;
 
