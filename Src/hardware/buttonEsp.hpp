@@ -49,7 +49,7 @@ private:
 		waitReleaseDouble
 	};
 
-	Queue *canTxQueue;
+	CanThread *canThread;
 	GPIO_TypeDef *gpio;
 	uint16_t pin;
 	uint8_t polarity;
@@ -69,7 +69,7 @@ private:
 		tx.len=1;
 		tx.data[0]=static_cast< typename std::underlying_type<ButtonEvent>::type >(event);
 
-		canTxQueue->Enqueue(&tx, 100);
+		canThread->enqueue(tx, 100);
 	}
 
 	bool getPin() {
@@ -116,9 +116,9 @@ private:
 public:
 
 	// Initialize with port and pin.
-	ButtonEsp(const std::string _pcName, Queue *_canTxQueue, GPIO_TypeDef* _gpio, uint16_t _pin, uint8_t _polarity, uint32_t _id=0) :
+	ButtonEsp(const std::string _pcName, CanThread *_canThread, GPIO_TypeDef* _gpio, uint16_t _pin, uint8_t _polarity, uint32_t _id=0) :
 		Thread(_pcName, configMINIMAL_STACK_SIZE, 1),
-		canTxQueue(_canTxQueue), gpio(_gpio),
+		canThread(_canThread), gpio(_gpio),
 		pin(_pin), polarity(_polarity), id(_id) {
 
 		GPIO_InitTypeDef GPIO_InitStructure;
@@ -209,6 +209,14 @@ public:
 			}
 			Delay(25);
 		}
+	}
+
+	uint32_t getId() const {
+		return id;
+	}
+
+	void setId(uint32_t id = 0) {
+		this->id = id;
 	}
 };
 

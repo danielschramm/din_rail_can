@@ -8,6 +8,8 @@
 #ifndef SRC_LIB_UNIQUE_ID_HPP_
 #define SRC_LIB_UNIQUE_ID_HPP_
 
+#include "crc32.hpp"
+
 #ifdef STM32F40_41xxx
 #define UNIQUE_ID0 ( * (uint32_t *) (0x1fff7A10))
 #define UNIQUE_ID1 ( * (uint32_t *) (0x1fff7A14))
@@ -26,6 +28,8 @@ private:
 		uint32_t n32[3];
 		uint8_t n8[12];
 	} number;
+
+	uint32_t canId=7e0;
 public:
 	UniqueId() {
 		setToProcessorID();
@@ -68,6 +72,23 @@ public:
 		} else {
 			return 0;
 		}
+	}
+
+	// use CRC32 to reduce bitsize to identify the device
+	uint32_t getCRC() {
+		Crc32 crc;
+		for(uint8_t i=0; i<sizeof(number); i++) {
+			crc.update_crc_32(number.n8[i]);
+		}
+		return (crc.getCRC());
+	}
+
+	uint32_t getCanId() const {
+		return canId;
+	}
+
+	void setCanId(uint32_t canId = 7e0) {
+		this->canId = canId;
 	}
 };
 

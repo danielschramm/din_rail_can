@@ -72,8 +72,8 @@ public:
 	}
 
 
-	Queue* getTxQueue() {
-		return txQueue;
+	void enqueue(CanObject &txObject, TickType_t timeout=100) {
+		txQueue->Enqueue(&txObject, timeout);
 	}
 };
 

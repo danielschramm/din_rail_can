@@ -35,7 +35,7 @@
 
 #include "peripherals/can.hpp"
 #include "hardware/StatusLeds.hpp"
-//#include "canWatchdog.hpp"
+#include "canWatchdog.hpp"
 #include "peripherals/usart3_simpel/usart3.hpp"
 
 #include "apps/JalousieAppEsp.hpp"
@@ -45,7 +45,6 @@
 using namespace cpp_freertos;
 using namespace std;
 
-uint32_t can_id = 0x00123400;
 
 int main(void)
 {
@@ -61,6 +60,7 @@ int main(void)
 
 	UniqueId uid;
 	uid.setToProcessorID();
+	/*
 	if(uid==UniqueId(98172722, 808997681, 1125394742)) { // Schaltmodul EG
 		can_id=0x00100000;
 	}
@@ -80,9 +80,11 @@ int main(void)
 		//can_id=0x00100500;
 		can_id=0x500;
 	}
+	*/
 
 	CanThread *canThread= new CanThread();
-	JalousieAppEsp *app = new JalousieAppEsp(canThread, can_id);
+	CanWatchdog *canWatchdog = new CanWatchdog(canThread, &uid);
+	JalousieAppEsp *app = new JalousieAppEsp(canThread, &uid, canWatchdog);
 
 	Thread::StartScheduler();
 
