@@ -11,6 +11,7 @@
 
 #include "CanThread.hpp"
 #include "stm32f1xx_hal.h"
+#include "peripherals/unique_id.hpp"
 
 using namespace std;
 

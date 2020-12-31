@@ -75,12 +75,12 @@ public:
 		buttons[10]=new ButtonEsp("Button11",canThread, GPIOC,GPIO_PIN_0,1,nodeId+0x0b);
 		buttons[11]=new ButtonEsp("Button12",canThread, GPIOC,GPIO_PIN_1,1,nodeId+0x0c);
 
-		//		motor[0] = new JalousieMotor(GPIOC,GPIO_PIN_2,GPIOC,GPIO_PIN_3);
-		//		motor[1] = new JalousieMotor(GPIOA,GPIO_PIN_0,GPIOA,GPIO_PIN_1);
-		//		motor[2] = new JalousieMotor(GPIOA,GPIO_PIN_2,GPIOA,GPIO_PIN_3);
-		//		motor[3] = new JalousieMotor(GPIOA,GPIO_PIN_4,GPIOA,GPIO_PIN_5);
-		//		motor[4] = new JalousieMotor(GPIOA,GPIO_PIN_6,GPIOA,GPIO_PIN_7);
-		//		motor[5] = new JalousieMotor(GPIOC,GPIO_PIN_4,GPIOC,GPIO_PIN_5);
+		motor[0] = new JalousieMotor(GPIOC,GPIO_PIN_2,GPIOC,GPIO_PIN_3);
+		motor[1] = new JalousieMotor(GPIOA,GPIO_PIN_0,GPIOA,GPIO_PIN_1);
+		motor[2] = new JalousieMotor(GPIOA,GPIO_PIN_2,GPIOA,GPIO_PIN_3);
+		motor[3] = new JalousieMotor(GPIOA,GPIO_PIN_4,GPIOA,GPIO_PIN_5);
+		motor[4] = new JalousieMotor(GPIOA,GPIO_PIN_6,GPIOA,GPIO_PIN_7);
+		motor[5] = new JalousieMotor(GPIOC,GPIO_PIN_4,GPIOC,GPIO_PIN_5);
 
 		//STATUSLEDS.greenOn();
 		printf("JalousieAppEsp Start\r\n");
@@ -109,7 +109,6 @@ public:
 	void onNewCanMessage(CanObject *rxObject) {
 		if( (rxObject->id >= nodeId+0x10) && (rxObject->id < nodeId+0x16) ) {
 			if(rxObject->len==1) {
-				/*
 				switch (rxObject->data[0]) {
 				case 0:
 						motor[rxObject->id - nodeId - 0x10]->driveStop();
@@ -121,7 +120,6 @@ public:
 						motor[rxObject->id - nodeId - 0x10]->driveDown();
 					break;
 				}
-				 */
 			}
 		}
 
